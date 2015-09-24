@@ -1,0 +1,22 @@
+angular.module('flapperNews')
+.controller('PostsCtrl', [
+  '$scope',
+  'posts',
+  'post'
+  function($scope, posts, post){
+    $scope.post = post;
+    $scope.addComment = function(){
+      if (!$scope.body || $scope.body === '' ) {return;}
+      post.addComments(post.id, {
+        body: $scope.body,
+        author: 'user',
+        upvotes: 0
+      }).success(function(comment){
+        $scope.post.comments.push(comment);
+      });
+      $scope.body ="";
+    };
+    $scope.incrementUpVote = function(comment){
+      post.upvoteComment(post,comment);
+    };
+  }]);
